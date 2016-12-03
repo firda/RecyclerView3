@@ -16,9 +16,6 @@ import java.util.ArrayList;
 import id.sch.smktelkom_mlg.learn.recyclerview3.R;
 import id.sch.smktelkom_mlg.learn.recyclerview3.model.Hotel;
 
-/**
- * Created by putri aditya on 10/31/2016.
- */
 public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> {
     ArrayList<Hotel> hotelList;
     IHotelAdapter mIHotelAdapter;
@@ -27,6 +24,39 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> 
 
         this.hotelList = hotelList;
         mIHotelAdapter = (IHotelAdapter) context;
+    }
+
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);
+        ViewHolder vh = new ViewHolder(v);
+        return vh;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Hotel hotel = hotelList.get(position);
+        holder.tvJudul.setText(hotel.judul);
+        holder.tvDeskripsi.setText(hotel.deskripsi);
+        holder.ivFoto.setImageURI(Uri.parse(hotel.foto));
+    }
+
+    @Override
+    public int getItemCount() {
+        if (hotelList != null)
+            return hotelList.size();
+        return 0;
+    }
+
+    public interface IHotelAdapter {
+        void doClick(int pos);
+
+        void doEdit(int pos);
+
+        void doDelete(int pos);
+
+        void doFav(int pos);
+
+        void doShare(int pos);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
@@ -85,33 +115,5 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> 
             });
 
         }
-    }
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list,parent,false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Hotel hotel = hotelList.get(position);
-        holder.tvJudul.setText(hotel.judul);
-        holder.tvDeskripsi.setText(hotel.deskripsi);
-        holder.ivFoto.setImageURI(Uri.parse(hotel.foto));
-    }
-
-    public interface IHotelAdapter {
-        void doClick(int pos);
-        void doEdit(int pos);
-        void doDelete(int pos);
-        void doFav(int pos);
-        void doShare(int pos);
-    }
-
-    @Override
-    public int getItemCount() {
-        if (hotelList!=null)
-            return hotelList.size();
-        return 0;
     }
 }
